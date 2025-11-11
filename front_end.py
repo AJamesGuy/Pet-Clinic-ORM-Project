@@ -77,7 +77,7 @@ def appointments_menu(current_user):
         print("""
 1.) schedule appointment
 2.) view appointments
-3.) reschdule appointment
+3.) reschedule appointment
 4.) Complete appointment
 5.) Back
 """)
