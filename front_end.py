@@ -1,7 +1,7 @@
 #DONT FORGET TO IMPORT FUNCTIONS AFTER YOU MAKE THEM
 from bp_auth import register, login
 from models import Owners, session
-from bp_owner import update_owner, view_owner
+from bp_owner import update_owner, view_owner, delete_owner
 
 def welcome_menu():
     current_user = None
@@ -40,9 +40,10 @@ def owner_menu(current_user):
             current_user = update_owner(current_user)
         elif choice == '3':
             #delete the current users account
-            pass
+            current_user = delete_owner(current_user)
+            main()
         elif choice == '4':
-            return #Goes back to main menu
+            return current_user#Goes back to main menu
         else:
             print("Invalid Selection.")
 
@@ -101,16 +102,16 @@ def appointments_menu(current_user):
 
 def main():
     
-    # current_user = welcome_menu() 
+    current_user = welcome_menu() 
 
     #After you test you login and register functions, it might be more efficient
     #to set current_user to a user in your db so you don't have to log in everytime
     #you want to test something.
     
-    current_user = session.get(Owners, 1)
+    # current_user = session.get(Owners, 1)
 
     if current_user:
-        while True:
+        while True and current_user:
             print("""
         --------- Pet Clinic --------
         1.) Manage Profile
@@ -124,6 +125,7 @@ def main():
                 pets_menu(current_user)
             elif choice == '3':
                 appointments_menu(current_user)
+                return current_user
             else:
                 print("Invalid Selection.")
     

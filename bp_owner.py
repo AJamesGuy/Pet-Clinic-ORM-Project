@@ -41,3 +41,14 @@ def update_owner(current_user):
 #if so delete the current user from the session
 #commits changes 
 #call main() to start the program over
+
+def delete_owner(current_owner):
+    choice = input("To confirm you want to delete your account, type 'delete': ")
+    if choice == 'delete':
+        session.delete(current_owner)
+        session.commit()
+        print("Account deleted")
+        return None
+    else:
+        print("You opted out, back to menu")
+        return current_owner
