@@ -1,5 +1,6 @@
 #DONT FORGET TO IMPORT FUNCTIONS AFTER YOU MAKE THEM
-
+from bp_auth import register, login
+from models import Owners, session
 
 def welcome_menu():
     current_user = None
@@ -11,15 +12,12 @@ def welcome_menu():
 """)
         choice = input("select (1 or 2) or quit: ")
         if choice == '1':
-            #login function
-            #should set the current user on successful login
-            pass
+            current_user = login()
+            return current_user
 
         elif choice == '2':
-            #register function
-            #should set the current user on successful register
-            pass
-
+            current_user = register() # Owner object created and returned
+            return current_user
         elif choice == 'quit':
             return
         else:
@@ -103,12 +101,14 @@ def appointments_menu(current_user):
 
 def main():
     
-    current_user = welcome_menu() 
+    # current_user = welcome_menu() 
 
     #After you test you login and register functions, it might be more efficient
     #to set current_user to a user in your db so you don't have to log in everytime
     #you want to test something.
     
+    current_user = session.get(Owners, 1)
+
     if current_user:
         while True:
             print("""

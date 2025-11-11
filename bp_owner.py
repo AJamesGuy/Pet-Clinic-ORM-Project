@@ -3,7 +3,8 @@ from models import Owners, session
 #View profile function
 #displays the current users info
 
-
+def view_owner(current_user):
+    
 #Update profile function
 #dsiplays current user info
 #allows user to update any of the fields
