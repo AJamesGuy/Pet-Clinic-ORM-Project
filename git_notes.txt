@@ -1,0 +1,8 @@
+git commit -m "message"
+
+git checkout -b branch_name
+
+git checkout main
+
+git checkout branch_name
+
