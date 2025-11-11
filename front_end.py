@@ -1,8 +1,8 @@
-#DONT FORGET TO IMPORT FUNCTIONS AFTER YOU MAKE THEM
-from bp_auth import register, login
 from models import Owners, session
-from bp_owner import update_owner, view_owner, delete_owner
-
+from bp_auth import register, login
+from bp_owner import view_owner, update_owner, delete_owner
+from bp_pets import view_pets, create_pet, update_pet, delete_pet
+from bp_appointments import create_appointment, reschedule_appointment, view_appointments
 def welcome_menu():
     current_user = None
     while True:
@@ -15,9 +15,11 @@ def welcome_menu():
         if choice == '1':
             current_user = login()
             return current_user
+
         elif choice == '2':
-            current_user = register() # Owner object created and returned
+            current_user = register() # This function creates and returns an Owner object
             return current_user
+        
         elif choice == 'quit':
             return
         else:
@@ -32,18 +34,15 @@ def owner_menu(current_user):
     4.) Back""")
         choice = input("choose 1-3: ")
         if choice == '1':
-            #view profile function should display the current users info
             view_owner(current_user)
         elif choice == '2':
-            #update profile function, and returns the updated user
-            #on success, should set current_user to the user that is returned
             current_user = update_owner(current_user)
         elif choice == '3':
-            #delete the current users account
             current_user = delete_owner(current_user)
             main()
+            return current_user
         elif choice == '4':
-            return current_user#Goes back to main menu
+            return current_user #Goes back to main menu
         else:
             print("Invalid Selection.")
 
@@ -57,17 +56,13 @@ def pets_menu(current_user):
 5.) Back""")
         choice = input("choose 1-5: ")
         if choice == '1':
-            #function that displays the current user's pets
-            pass
+            view_pets(current_user)
         elif choice == '2':
-            #function to create a new pet linked to the current user, add to db
-            pass
+            create_pet(current_user)
         elif choice == '3':
-            #function to update a particular pet 
-            pass
+            update_pet(current_user)
         elif choice == '4':
-            #function to delete a particuler pet
-            pass
+            delete_pet(current_user)
         elif choice == '5':
             return
         else:
@@ -78,21 +73,17 @@ def appointments_menu(current_user):
         print("""
 1.) schedule appointment
 2.) view appointments
-3.) reschedule appointment
+3.) reschdule appointment
 4.) Complete appointment
 5.) Back
 """)
         choice = input("choose 1-5: ")
         if choice == '1':
-            #Function to create a new appointment between one of the user's pets
-            #and one of the vets
-            pass
+            create_appointment(current_user)
         elif choice == '2':
-            #View current user's appointments
-            pass
+            view_appointments(current_user)
         elif choice == '3':
-            #Reschedule appointment (change the date)
-            pass
+            reschedule_appointment(current_user)
         elif choice == '4':
             #Complete appointment (change status to complete)
             pass
@@ -102,14 +93,14 @@ def appointments_menu(current_user):
 
 def main():
     
-    current_user = welcome_menu() 
+    # current_user = welcome_menu() 
 
     #After you test you login and register functions, it might be more efficient
     #to set current_user to a user in your db so you don't have to log in everytime
     #you want to test something.
-    
-    # current_user = session.get(Owners, 1)
 
+    current_user = session.get(Owners, 1)
+    
     if current_user:
         while True and current_user:
             print("""
@@ -125,7 +116,6 @@ def main():
                 pets_menu(current_user)
             elif choice == '3':
                 appointments_menu(current_user)
-                return current_user
             else:
                 print("Invalid Selection.")
     
