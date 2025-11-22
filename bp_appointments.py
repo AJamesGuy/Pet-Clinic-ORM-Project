@@ -83,20 +83,24 @@ def create_appointment(current_user):
 def view_appointments(current_user):
   if not current_user.appointments:
     print("You have no appointments scheduled.")
+    input("Press enter to continue...")
     return
-  print("Upcoming Appointments:")
-  for pet in current_user.pets:
-    for appointment in pet.appointments:
-      if appointment.status != 'Complete':
-        print("-----------------------")
-        appointment.display()
+  
+  upcoming = [apt for apt in current_user.appointments if apt.status != 'Complete']
+  completed = [apt for apt in current_user.appointments if apt.status == 'Complete']
+  if upcoming:
+    print("Upcoming Appointments:")
+    for apt in upcoming:
+      print("-----------------------")
+      apt.display()
   print("\n")
-  print("Completed Appointments:")
-  for pet in current_user.pets:
-    for appointment in pet.appointments:
-      if appointment.status == 'Complete':
-        print("-----------------------")
-        appointment.display()
+  if completed:
+    print("Completed Appointments:")
+    for apt in completed:
+      print("-----------------------")
+      apt.display()
+  input("Press enter to continue...")
+  return
 
 
 #Reschedule appointments

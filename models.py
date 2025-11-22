@@ -113,6 +113,7 @@ class Appointment(Base):
 def seed():
     """Function to seed initial data into the database for testing purposes."""
     print("Creating database and tables...")
+    # Uncomment the next line if you want to drop existing tables
     #Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     with Session() as session:
