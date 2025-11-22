@@ -1,8 +1,8 @@
-from models import Owners, session
+from models import Owner, session
 from bp_auth import register, login
 from bp_owner import view_owner, update_owner, delete_owner
 from bp_pets import view_pets, create_pet, update_pet, delete_pet
-from bp_appointments import create_appointment, reschedule_appointment, view_appointments
+from bp_appointments import create_appointment, reschedule_appointment, view_appointments, complete_appointment
 def welcome_menu():
     current_user = None
     while True:
@@ -73,7 +73,7 @@ def appointments_menu(current_user):
         print("""
 1.) schedule appointment
 2.) view appointments
-3.) reschdule appointment
+3.) reschedule appointment
 4.) Complete appointment
 5.) Back
 """)
@@ -85,22 +85,14 @@ def appointments_menu(current_user):
         elif choice == '3':
             reschedule_appointment(current_user)
         elif choice == '4':
-            #Complete appointment (change status to complete)
-            pass
+            complete_appointment(current_user)
         elif choice =='5':
             return
 
 
 def main():
-    
-    # current_user = welcome_menu() 
+    current_user = welcome_menu()
 
-    #After you test you login and register functions, it might be more efficient
-    #to set current_user to a user in your db so you don't have to log in everytime
-    #you want to test something.
-
-    current_user = session.get(Owners, 1)
-    
     if current_user:
         while True and current_user:
             print("""
@@ -108,6 +100,7 @@ def main():
         1.) Manage Profile
         2.) My Pets
         3.) My Appointments
+        4.) Quit
         """)
             choice = input("choose 1-3: ")
             if choice == '1':
@@ -116,6 +109,9 @@ def main():
                 pets_menu(current_user)
             elif choice == '3':
                 appointments_menu(current_user)
+            elif choice == '4':
+                print("Thank you for visiting Pet Clinic!")
+                break
             else:
                 print("Invalid Selection.")
     
